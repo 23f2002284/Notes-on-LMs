@@ -2,7 +2,7 @@
 Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287961313362)
 
 ## 1. Tokenization & Embeddings
-- [ ] Build a byte-pair encoder and train your own subword vocabulary
+- [x] Build a byte-pair encoder and train your own subword vocabulary
 - [ ] Create a token visualizer to map words/chunks to their corresponding token IDs
 - [ ] Compare one-hot encoding vs learned embeddings by plotting cosine distances
 
