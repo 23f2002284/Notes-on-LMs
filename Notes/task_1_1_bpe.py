@@ -253,20 +253,20 @@ class BPE:
         return self.merges.copy()
 
 # Example usage
-if __name__ == "__main__":
-    corpus = [
-        "Here I am, in a journey to find a true fit for my skills.",
-        "The journey may not be easy but it will be worth it.",
-        "Hope you find it interesting."
-    ]
+# if __name__ == "__main__":
+#     corpus = [
+#         "Here I am, in a journey to find a true fit for my skills.",
+#         "The journey may not be easy but it will be worth it.",
+#         "Hope you find it interesting."
+#     ]
     
-    # Initialize BPE with a small vocab size for demonstration
-    bpe = BPE(vocab_size=50, corpus=corpus)
+#     # Initialize BPE with a small vocab size for demonstration
+#     bpe = BPE(vocab_size=50, corpus=corpus)
     
-    # Test tokenization
-    test_text = "This is a test of the BPE tokenizer."
-    tokens = bpe.tokenize(test_text)
-    print(f"Original: {test_text}")
-    print(f"Tokens: {tokens}")
-    print(f"Vocabulary size: {len(bpe.get_vocab())}")
-    print(f"Learned merges: {bpe.get_merges()}")
+#     # Test tokenization
+#     test_text = "This is a test of the BPE tokenizer."
+#     tokens = bpe.tokenize(test_text)
+#     print(f"Original: {test_text}")
+#     print(f"Tokens: {tokens}")
+#     print(f"Vocabulary size: {len(bpe.get_vocab())}")
+#     print(f"Learned merges: {bpe.get_merges()}")

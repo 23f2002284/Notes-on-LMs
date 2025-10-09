@@ -1,6 +1,8 @@
 # LLM Engineering Projects
 Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287961313362)
 
+
+
 ## 1. Tokenization & Embeddings
 - [x] Build a byte-pair encoder and train your own subword vocabulary
 - [ ] Create a token visualizer to map words/chunks to their corresponding token IDs
@@ -116,8 +118,49 @@ Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287
 - [ ] Implement data cleaning and deduplication
 - [ ] Compare model performance on real vs. synthetic data
 
-## Development Principles
+
+# Next Steps
+- [ ] Generative Deep learning
+- [ ] LLM from Scratch
+- [ ] LLM Engineering Handbook
+- [ ] GANs in Action
+- [ ] NLP with Transformers models
+- [ ] AI Engineering
+- [ ] Reinforcement learning
+- [ ] Development for interface building and deployment Practices (ops)
+- [ ] Sebastian Raschka Sir's new book on Reasoning Models
+- [ ] New and old Papers on LLMs development
+- [ ] Upcoming GSoc Contribution and projects Notes
+- [ ] it will be like a knowledge graph anyone would like to have in LLM development
+
+> ( soon to add more as i learn )
+
+## Development Principles 
 - Focus on one core insight per project
 - Build → Plot → Analyze → Iterate
 - Document findings and visualizations
 - Share learnings with the community
+
+## Development Practices
+
+To maintain high code quality and consistency across the project, we adhere to the following development practices:
+
+### Code Structure
+- **Object-Oriented Design**: Leveraging Python classes for better organization and encapsulation
+- **Modular Architecture**: Breaking down complex systems into reusable, single-responsibility components
+
+### Code Quality
+- **Type Annotations**: Comprehensive type hints for better code clarity and IDE support
+- **Documentation**: Detailed docstrings following Google style guide for all public interfaces
+- **Error Handling**: Robust exception handling with meaningful error messages
+- **Code Comments**: Clear, concise comments explaining non-obvious logic and complex algorithms
+
+### Best Practices
+- **Encapsulation**: Using private methods (prefixed with `_`) for internal implementation details
+- **Callable Objects**: Implementing `__call__` for classes where instance-as-function behavior makes sense
+- **Value-Added Scripts**: Ensuring each script provides clear utility and can be easily reused or extended
+
+### Development Workflow
+- **Code Reviews**: All changes undergo thorough code review
+- **Testing**: Comprehensive test coverage for critical functionality
+- **Continuous Integration**: Automated testing and quality checks on every commit
