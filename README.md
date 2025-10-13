@@ -5,7 +5,7 @@ Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287
 
 ## 1. Tokenization & Embeddings
 - [x] Build a byte-pair encoder and train your own subword vocabulary
-- [ ] Create a token visualizer to map words/chunks to their corresponding token IDs
+- [X] Create a token visualizer to map words/chunks to their corresponding token IDs
 - [ ] Compare one-hot encoding vs learned embeddings by plotting cosine distances
 
 ## 2. Positional Embeddings
@@ -120,8 +120,16 @@ Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287
 
 
 # Next Steps
+- [ ] Seq2Seq Model for 
+  - [ ] classification
+  - [ ] translation
+  - [ ] summarization
+  - [ ] question answering ?
+  - [ ] entity extraction
+  - [ ] bottleneck explanation for achilles heel
 - [ ] Generative Deep learning
-- [ ] LLM from Scratch
+- [ ] Build a LLM from Scratch
+- [ ] Test yourself on Build a LLM from scratch
 - [ ] LLM Engineering Handbook
 - [ ] GANs in Action
 - [ ] NLP with Transformers models
@@ -132,8 +140,9 @@ Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287
 - [ ] New and old Papers on LLMs development
 - [ ] Upcoming GSoc Contribution and projects Notes
 - [ ] it will be like a knowledge graph anyone would like to have in LLM development
+- [ ] State Management: Memory (Mem0, MemGPT)
 
-> ( soon to add more as i learn )
+> ( soon to add more as i learn ) ⬇️
 
 ## Development Principles 
 - Focus on one core insight per project

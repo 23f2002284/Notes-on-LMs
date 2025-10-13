@@ -6,6 +6,7 @@
 
 from typing import Dict, List, Tuple, DefaultDict, Set, Optional
 from collections import defaultdict
+import random 
 
 
 class BPE:
@@ -47,6 +48,8 @@ class BPE:
         self.vocab_size = vocab_size
         self.word_freqs: Dict[str, int] = self._frequency_count()
         self.vocab: List[str] = ["<|text_end|>"] + self._character_vocabulary()
+        self.vocab_to_id: Dict[str, int] = {}
+        self.id_to_vocab: Dict[int, str] = {}
         self.splits: Dict[str, List[str]] = {word: list(word) for word in self.word_freqs.keys()}
         self.merges: Dict[Tuple[str, str], str] = {}
         self._build_vocabulary()
@@ -153,6 +156,9 @@ class BPE:
         if len(self.vocab) < self.vocab_size:
             print(f"Warning: Could only build vocabulary of size {len(self.vocab)} "
                  f"(requested {self.vocab_size})")
+        
+        self.vocab_to_id = {word: i for i, word in enumerate(self.vocab)}
+        self.id_to_vocab = {i: word for word, i in self.vocab_to_id.items()}
     
     def tokenize(self, text: str) -> List[str]:
         """Tokenize the input text using the learned BPE vocabulary.
@@ -224,6 +230,37 @@ class BPE:
                 i += 1
                 
         return tokens
+    
+    def encode(self, text: str) -> List[int]:
+        """Encode the input text using the learned BPE vocabulary.
+        
+        Args:
+            text (str): The input text to encode.
+            
+        Returns:
+            List[int]: List of token IDs.
+            
+        Raises:
+            ValueError: If the input text is empty or invalid.
+        """
+        tokens = self.tokenize(text)
+        return [self.vocab_to_id[token] for token in tokens if token in self.vocab_to_id]
+    
+    def decode(self, ids: List[int]) -> str:
+        if not ids:
+            raise ValueError("Input token IDs cannot be empty")
+            
+        tokens = []
+        for id_ in ids:
+            if id_ not in self.id_to_vocab:
+                raise ValueError(f"Invalid token ID: {id_}")
+            token = self.id_to_vocab[id_]
+            # Handle special tokens or add spaces as needed
+            tokens.append(token)
+            
+        # This is a simple join - might need adjustment based on your tokenization
+        return "".join(tokens).replace("Ġ", " ").replace("</w>", " ")
+
         
     def __call__(self, text: str) -> List[str]:
         """Make the tokenizer callable. Equivalent to tokenize().
@@ -270,3 +307,5 @@ class BPE:
 #     print(f"Tokens: {tokens}")
 #     print(f"Vocabulary size: {len(bpe.get_vocab())}")
 #     print(f"Learned merges: {bpe.get_merges()}")
+
+
