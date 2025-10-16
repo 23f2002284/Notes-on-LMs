@@ -8,6 +8,16 @@ Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287
 - [X] Create a token visualizer to map words/chunks to their corresponding token IDs
 - [ ] Compare one-hot encoding vs learned embeddings by plotting cosine distances
 
+### Implementation Files
+| File | Description |
+|------|-------------|
+| [1-1.ipynb](tokenization_n_embeddings/1-1.ipynb) | Main notebook for Task 1.1 |
+| [1-1.md](tokenization_n_embeddings/1-1.md) | Documentation for Task 1.1 |
+| [task_1_1_bpe.py](tokenization_n_embeddings/task_1_1_bpe.py) | Byte-pair encoding implementation |
+| [task_1_2_token_mapping.ipynb](tokenization_n_embeddings/task_1_2_token_mapping.ipynb) | Token visualization implementation |
+| [task_1_3_ohe_vs_learned_emb.ipynb](tokenization_n_embeddings/task_1_3_ohe_vs_learned_emb.ipynb) | One-hot vs learned embeddings comparison |
+
+
 ## 2. Positional Embeddings
 - [ ] Implement and compare different positional encoding methods:
   - Classic sinusoidal
@@ -16,6 +26,18 @@ Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287
   - ALiBi (Attention with Linear Biases)
 - [ ] Create a 3D animation showing how a toy sequence is position-encoded
 - [ ] Perform ablation studies by removing positional encodings and observe attention collapse
+
+### Implementation Files
+| File | Description |
+|------|-------------|
+| [sinusodial_PE.py](possitional_emb/sinusodial_PE.py) | Implementation of classic sinusoidal positional encoding |
+| [learned_PE.py](possitional_emb/learned_PE.py) | Implementation of learned positional embeddings |
+| [RoPE.py](possitional_emb/RoPE.py) | Implementation of Rotary Positional Embeddings |
+| [ALiBi_PE.py](possitional_emb/ALiBi_PE.py) | Implementation of Attention with Linear Biases |
+| [toy_seq_pe_vizualization.py](possitional_emb/toy_seq_pe_vizualization.py) | 3D visualization of position encoding |
+| [diff_vizualization.py](possitional_emb/diff_vizualization.py) | Visualization of different positional encoding methods |
+| [ablation_studies.py](possitional_emb/ablation_studies.py) | Ablation studies on positional encodings |
+
 
 ## 3. Self-Attention & Multihead Attention
 - [ ] Implement dot-product attention for a single token
@@ -120,6 +142,9 @@ Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287
 
 
 # Next Steps
+- [ ] will add existing good repositories on topic
+- [ ] a good readme file like a roadmap and with good file structure mapping
+- [ ] write notes and q&a in md files
 - [ ] Seq2Seq Model for 
   - [ ] classification
   - [ ] translation
