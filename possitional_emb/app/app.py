@@ -53,6 +53,10 @@ def sidebar_controls():
     )
 
     # Basic hyperparameters
+    if task_name.startswith("k-back"):
+        k_back = st.sidebar.slider("k (steps back)", min_value=1, max_value=10, value=3)
+    else:
+        k_back = None
     steps = st.sidebar.slider("Training steps", min_value=50, max_value=2000, value=300, step=50)
     batch_size = st.sidebar.slider("Batch size", min_value=16, max_value=256, value=64, step=16)
     d_model = st.sidebar.select_slider("Model dim (d_model)", options=[64, 128, 192, 256], value=128)
@@ -62,12 +66,6 @@ def sidebar_controls():
     lr = st.sidebar.select_slider("Learning rate", options=[1e-4, 3e-4, 5e-4, 1e-3], value=3e-4)
     device = st.sidebar.selectbox("Device", device_options(), index=0)
     seed = st.sidebar.number_input("Seed", min_value=0, max_value=10_000, value=1337, step=1)
-
-    # Task-specific
-    if task_name.startswith("k-back"):
-        k_back = st.sidebar.slider("k (steps back)", min_value=1, max_value=10, value=3)
-    else:
-        k_back = None
 
     st.sidebar.caption("Tip: Increase steps for clearer separation; defaults are CPU-friendly.")
 
@@ -118,7 +116,74 @@ def build_task(task_name: str):
     return spec, meta, k_back
 
 
+def cfg_to_key(cfg: Dict) -> str:
+    # Deterministic string for comparing UI config dictionaries
+    return json.dumps(cfg, sort_keys=True)
+
+
+def init_state():
+    defaults = {
+        "results": None,
+        "last_cfg": None,
+        "last_cfg_key": None,
+        "last_task_name": None,
+        "last_meta": None,
+        "last_k_back": None,
+    }
+    for k, v in defaults.items():
+        if k not in st.session_state:
+            st.session_state[k] = v
+
+
+def render_results(results: Dict, label_prefix: str = ""):
+    if not results:
+        return
+
+    # Summaries table
+    rows = []
+    for enc, res in results.items():
+        rows.append(
+            {
+                "encoding": enc,
+                "in_loss": round(res["in_dist"]["loss"], 4),
+                "in_acc": round(res["in_dist"]["acc"], 4),
+                "out_loss": round(res["out_dist"]["loss"], 4),
+                "out_acc": round(res["out_dist"]["acc"], 4),
+            }
+        )
+    st.subheader(f"{label_prefix}Summary (In-Distribution vs Out-of-Distribution/Longer Sequences)")
+    st.dataframe(pd.DataFrame(rows).set_index("encoding"))
+
+    # Learning curves
+    st.subheader(f"{label_prefix}Learning curves (validation)")
+    curve_df = []
+    for enc, res in results.items():
+        val_acc = res["train_logs"]["val_acc"]
+        xs = list(range(1, len(val_acc) + 1))
+        for i, a in enumerate(val_acc):
+            curve_df.append({"encoding": enc, "checkpoint": i, "val_acc": a})
+    curve_df = pd.DataFrame(curve_df)
+    st.line_chart(curve_df.pivot(index="checkpoint", columns="encoding", values="val_acc"))
+
+    # Attention heatmaps for a small example
+    st.subheader(f"{label_prefix}Attention maps (last layer, one example)")
+    for enc, res in results.items():
+        st.markdown(f"#### {enc}")
+        attn = res["attn_example"]
+        if attn is None:
+            st.write("No attention captured.")
+            continue
+        H, T, _ = attn.shape
+        head_idx = st.slider(f"Head for {enc}", min_value=0, max_value=H - 1, value=0, key=f"head_{enc}")
+        st.caption(f"Head {head_idx}, sequence length {T}")
+        st.dataframe(
+            pd.DataFrame(attn[head_idx], columns=[f"t{j}" for j in range(T)]).style.background_gradient(cmap="Blues")
+        )
+
+
 def main():
+    init_state()
+
     st.title("Comparing Positional Encodings: Sinusoidal vs Learned vs RoPE vs ALiBi")
     st.write(
         "Run quick, controlled experiments to see where each positional encoding shines or struggles. "
@@ -133,6 +198,7 @@ def main():
     else:
         k_back = k_back_default
 
+    # Show current selection context
     st.subheader(spec.name)
     st.caption(meta["headline"])
     st.info(meta["expect"])
@@ -164,47 +230,32 @@ def main():
 
         st.success("Done.")
 
-        # Summaries table
-        rows = []
-        for enc, res in results.items():
-            rows.append(
-                {
-                    "encoding": enc,
-                    "in_loss": round(res["in_dist"]["loss"], 4),
-                    "in_acc": round(res["in_dist"]["acc"], 4),
-                    "out_loss": round(res["out_dist"]["loss"], 4),
-                    "out_acc": round(res["out_dist"]["acc"], 4),
-                }
+        # Persist results and context so UI tweaks won't drop them on rerun
+        st.session_state["results"] = results
+        st.session_state["last_cfg"] = dict(cfg_ui)  # shallow copy OK (primitives/lists)
+        st.session_state["last_cfg_key"] = cfg_to_key(cfg_ui)
+        st.session_state["last_task_name"] = spec.name
+        st.session_state["last_meta"] = meta
+        st.session_state["last_k_back"] = k_back
+
+    # Always render from stored results if available
+    stored_results = st.session_state.get("results")
+    if stored_results:
+        # Detect if sidebar config changed since last run (but keep showing prior results)
+        current_key = cfg_to_key(cfg_ui)
+        if st.session_state.get("last_cfg_key") and current_key != st.session_state["last_cfg_key"]:
+            st.warning(
+                "Sidebar configuration changed since last run. Showing results from the previous run. "
+                "Click 'Run experiment' to recompute with the new settings."
             )
-        st.subheader("Summary (In-Distribution vs Out-of-Distribution/Longer Sequences)")
-        st.dataframe(pd.DataFrame(rows).set_index("encoding"))
 
-        # Learning curves
-        st.subheader("Learning curves (validation)")
-        curve_df = []
-        for enc, res in results.items():
-            val_acc = res["train_logs"]["val_acc"]
-            # x-axis: checkpoints (approx)
-            xs = list(range(1, len(val_acc) + 1))
-            for i, a in enumerate(val_acc):
-                curve_df.append({"encoding": enc, "checkpoint": i, "val_acc": a})
-        curve_df = pd.DataFrame(curve_df)
-        st.line_chart(curve_df.pivot(index="checkpoint", columns="encoding", values="val_acc"))
+        # Label that these results come from the last completed run
+        label_prefix = ""
+        last_task = st.session_state.get("last_task_name")
+        if last_task:
+            st.markdown(f"##### Showing results from last run: {last_task}")
 
-        # Attention heatmaps for a small example
-        st.subheader("Attention maps (last layer, one example)")
-        for enc, res in results.items():
-            st.markdown(f"#### {enc}")
-            attn = res["attn_example"]
-            ex = res["example_x"]
-            if attn is None:
-                st.write("No attention captured.")
-                continue
-            # attn: (H,T,T)
-            H, T, _ = attn.shape
-            head_idx = st.slider(f"Head for {enc}", min_value=0, max_value=H - 1, value=0, key=f"head_{enc}")
-            st.caption(f"Head {head_idx}, sequence length {T}")
-            st.dataframe(pd.DataFrame(attn[head_idx], columns=[f"t{j}" for j in range(T)]).style.background_gradient(cmap="Blues"))
+        render_results(stored_results, label_prefix=label_prefix)
 
         # Notes
         st.subheader("Interpretation guide")
@@ -214,7 +265,6 @@ def main():
             "- RoPE (relative): good at relative offsets and extrapolation; widely used in modern LLMs; robust to insertions and length changes.\n"
             "- ALiBi (bias-only): adds a recency bias helping short-range dependencies; can hurt when long-range attention is required."
         )
-
     else:
         st.info("Configure the experiment in the sidebar, then click 'Run experiment'.")
 

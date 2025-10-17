@@ -121,6 +121,7 @@ def batch_k_back(
 ) -> Tuple[torch.Tensor, torch.Tensor]:
     x = torch.randint(low=0, high=vocab_size, size=(batch_size, seq_len), device=device)
     # Targets: y[t] = x[t-k] for t>=k else ignore (-100)
+    # t-> seq_len and k-> k_back
     y = torch.full((batch_size, seq_len), fill_value=-100, device=device, dtype=torch.long)
     if k_back < seq_len:
         y[:, k_back:] = x[:, :-k_back]
