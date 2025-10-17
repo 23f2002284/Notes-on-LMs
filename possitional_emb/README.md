@@ -153,7 +153,7 @@ given configuration is
 }
 
 ```
-![alt text](static/k_back_summary_table.png)
+![alt text](static/K_back_summary_table.png)
 
 ### Key Findings:
 
@@ -179,7 +179,7 @@ given configuration is
 - ALiBi's poor performance might indicate it's not well-suited for this specific task or may require different hyperparameters
 - Further investigation needed into why RoPE generalizes so much better than other methods
 
-![alt text](static/k_back_learning_curves.png)
+![alt text](static/K_back_learning_curves.png)
 ## k-back Learning Curves Analysis
 
 ### Training Dynamics by Encoding:

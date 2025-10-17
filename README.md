@@ -19,7 +19,7 @@ Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287
 
 
 ## 2. Positional Embeddings
-- [ ] Implement and compare different positional encoding methods:
+- [x] Implement and compare different positional encoding methods:
   - Classic sinusoidal
   - Learned positional embeddings
   - RoPE (Rotary Positional Embeddings)
@@ -35,7 +35,7 @@ Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287
 | [RoPE.py](possitional_emb/RoPE.py) | Implementation of Rotary Positional Embeddings |
 | [ALiBi_PE.py](possitional_emb/ALiBi_PE.py) | Implementation of Attention with Linear Biases |
 | [toy_seq_pe_vizualization.py](possitional_emb/toy_seq_pe_vizualization.py) | 3D visualization of position encoding |
-| [diff_vizualization.py](possitional_emb/diff_vizualization.py) | Visualization of different positional encoding methods |
+| [app](possitional_emb/app) | Streamlit app for positional encoding comparison |
 | [ablation_studies.py](possitional_emb/ablation_studies.py) | Ablation studies on positional encodings |
 
 
