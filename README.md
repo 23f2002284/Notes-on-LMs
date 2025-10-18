@@ -40,9 +40,22 @@ Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287
 
 
 ## 3. Self-Attention & Multihead Attention
-- [ ] Implement dot-product attention for a single token
-- [ ] Scale to multi-head attention and visualize attention weight heatmaps per head
-- [ ] Implement causal masking and verify the auto-regressive property
+- [X] Implement dot-product attention for a single token
+- [X] Scale to multi-head attention and visualize attention weight heatmaps per head
+- [X] Implement causal masking and verify the auto-regressive property
+
+### Implementation Files
+| File | Description |
+|------|-------------|
+| [single_token_attn.py](attention/single_token_attn.py) | Basic dot-product attention implementation for a single token |
+| [vizualize_multihead_attn/](attention/vizualize_multihead_attn/) | Multi-head attention visualization and implementation |
+| [vizualize_casualM_autoreg/](attention/vizualize_casualM_autoreg/) | Causal masking and auto-regressive property verification |
+| [vizualize_multihead_attn/app.py](attention/vizualize_multihead_attn/app.py) | Streamlit app for visualizing multi-head attention weights |
+| [vizualize_casualM_autoreg/app.py](attention/vizualize_casualM_autoreg/app.py) | Interactive demo of causal masking in attention |
+| [vizualize_casualM_autoreg/MultiHeadAttnViz.py](attention/vizualize_casualM_autoreg/MultiHeadAttnViz.py) | Multi-head attention implementation with causal masking |
+| [vizualize_casualM_autoreg/attention_masks.py](attention/vizualize_casualM_autoreg/attention_masks.py) | Utilities for creating attention masks |
+
+
 
 ## 4. Transformers, QKV, & Stacking
 - [ ] Build a single transformer block combining:
@@ -142,6 +155,7 @@ Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287
 
 
 # Next Steps
+- [ ] separate requirements.txt files for each tasks folders
 - [ ] will add existing good repositories on topic
 - [ ] a good readme file like a roadmap and with good file structure mapping
 - [ ] write notes and q&a in md files
