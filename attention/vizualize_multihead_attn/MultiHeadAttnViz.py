@@ -82,13 +82,13 @@ class MultiHeadAttentionViz(nn.Module):
             # Could be [B,1,T,S] or [B,H,T,S]
             if mask.shape[1] == 1:
                 pass  # broadcast over heads
-            elif mask.shape[1] != H:
-                raise ValueError(f"4D mask second dim must be 1 or H={H}, got {mask.shape}")
+            elif mask.shape[1] != num_heads:
+                raise ValueError(f"4D mask second dim must be 1 or H={num_heads}, got {mask.shape}")
         else:
             raise ValueError(f"Unsupported mask shape {mask.shape}")
 
         # Now broadcast to [B, H, T, S]
-        mask = mask.expand(B, H, T, S)
+        mask = mask.expand(batch_size, num_heads, seq_len, key_seq_len)
         return mask
 
 

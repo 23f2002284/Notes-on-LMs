@@ -58,13 +58,24 @@ Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287
 
 
 ## 4. Transformers, QKV, & Stacking
-- [ ] Build a single transformer block combining:
+- [X] Build a single transformer block combining:
   - Multi-head attention
   - Layer normalization
   - Residual connections
   - Feed-forward network
-- [ ] Scale to an n-block mini-transformer on toy data
+- [X] Scale to an n-block mini-transformer on toy data
 - [ ] Experiment with Q, K, V matrices: swap them, break them, and observe the effects
+
+### Implementation Files
+| File | Description |
+|------|-------------|
+| [single_tranformer.py](transformers/single_tranformer.py) | Core transformer block with multi-head attention, layer norm, and feed-forward network |
+| [mini_tranformers.py](transformers/mini_tranformers.py) | Complete transformer model with configurable number of layers |
+| [toy_tasks.py](transformers/toy_tasks.py) | Dataset generators for testing transformers (copy, reverse, next-token) |
+| [train_mini_transformer.py](transformers/train_mini_transformer.py) | Training loop and evaluation for the mini-transformer |
+| [app.py](transformers/app.py) | Interactive Streamlit app for training and testing transformers |
+| [tests/test_transformer.py](transformers/tests.py) | Unit tests for transformer components |
+| [tests/data_test.py](transformers/tests/data_test.py) | Tests for data loading and processing |
 
 ## 5. Sampling Parameters: Temperature/Top-k/Top-p
 - [ ] Create an interactive sampling dashboard to tune parameters:
@@ -158,6 +169,17 @@ Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287
 - [ ] separate requirements.txt files for each tasks folders
 - [ ] will add existing good repositories on topic
 - [ ] a good readme file like a roadmap and with good file structure mapping
+- [ ] advanced tasks with transformers
+  - [ ] Character level language modeling(Sharespeare, WikiText)
+  - [ ] Sequence-to-Sequence translation (simple MT task)
+  - [ ] Advanced training features (lr schedule, gradient clipping, checkpointing, W&B/TensorBoard logging)
+  - [ ] Text generation with temperature sampling and top-k/top-p
+  - [ ] Model analysis tools ( perplexity, attention rollout, interpretability)
+  - [ ] Machine translation (EN->FR using Multi30k dataset)
+  - [ ] Sentiment Analysis (fine-tuning on IMDB)
+  - [ ] Question answering (SQuAD dataset)
+  - RoPE, Flash attention, LoRA and Group query attention implementation.
+  - Attention vizualization across layers, gradient flow analysis, pruning and quantization
 - [ ] write notes and q&a in md files
 - [ ] Seq2Seq Model for 
   - [ ] classification
