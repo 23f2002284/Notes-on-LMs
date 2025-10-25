@@ -11,7 +11,7 @@ data = get_dataloader(
     batch_size=32,
     num_samples=100,
     shuffle=True,
-    pattern= 'primes'
+    pattern= 'alternating'
 )
 for src, tgt in data:
     breakpoint()

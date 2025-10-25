@@ -78,12 +78,21 @@ Inspired by [TheAhmadOsman's post](https://x.com/TheAhmadOsman/status/1975783287
 | [tests/data_test.py](transformers/tests/data_test.py) | Tests for data loading and processing |
 
 ## 5. Sampling Parameters: Temperature/Top-k/Top-p
-- [ ] Create an interactive sampling dashboard to tune parameters:
+- [X] Create an interactive sampling dashboard to tune parameters:
   - Temperature
   - Top-k
   - Top-p (nucleus sampling)
 - [ ] Plot entropy vs. output diversity across different parameter settings
 - [ ] Test with temperature=0 (argmax sampling) and observe repetition patterns
+
+## Implementation Files
+
+| File | Description |
+|------|-------------|
+| [inference.py](inference.py) | Basic implementation of text generation with sampling parameters |
+| [inference_optimized.py](inference_optimized.py) | Optimized implementation with quantization and memory efficiency |
+| [sampling_dashboard/app.py](sampling_dashboard/app.py) | Interactive Streamlit app for parameter exploration |
+| [sampling_dashboard/app_optimized.py](sampling_dashboard/app_optimized.py) | Optimized Streamlit app with model caching (in development) |
 
 ## 6. KV Cache (Fast Inference)
 - [ ] Implement KV state caching and measure inference speedup
