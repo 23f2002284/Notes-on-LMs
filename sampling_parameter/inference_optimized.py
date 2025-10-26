@@ -12,7 +12,7 @@ except Exception:
 
 from qwen_vl_utils import process_vision_info
 
-DEFAULT_MODEL_ID = "Qwen/Qwen3-VL-2B-Instruct-FP8"
+DEFAULT_MODEL_ID = "unsloth/Qwen3-VL-2B-Instruct-bnb-4bit"
 
 def _select_attn_impl():
     # Prefer FlashAttention-2 if available, else SDPA, else eager
@@ -123,10 +123,9 @@ def prepare_inputs(
     )
 
     # With device_map="auto", keep inputs on CPU so Accelerate can dispatch.
-    if not hasattr(model, "hf_device_map"):
-        device = next(model.parameters()).device
-        inputs = {k: (v.to(device) if torch.is_tensor(v) else v) for k, v in inputs.items()}
-
+    device = next(model.parameters()).device
+    inputs = {k: v.to(device) if torch.is_tensor(v) else v for k, v in inputs.items()}
+    
     return inputs
 
 @torch.inference_mode()
